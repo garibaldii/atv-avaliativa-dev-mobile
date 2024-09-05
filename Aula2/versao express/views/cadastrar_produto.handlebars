@@ -1,0 +1,27 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CadastrarProduto</title>
+  </head>
+  <body>
+    <h1>Formulário para cadastrar produto</h1>
+    <fieldset>
+      <form action="/add_produto" method="POST">
+        <label>Produto:</label>
+        <input type="text" name="nome" /><br /><br />
+        <label>Valor:</label>&nbsp&nbsp&nbsp&nbsp
+        <input type="text" name="valor" /><br /><br />
+        <label>Quantidade:</label>
+        <input type="text" name="qtd" size="5" /><br /><br />
+        <button type="submit" class="enviar">Cadastrar</button>
+      </form>
+    </fieldset>
+    {{#each errors}}
+      <div font size="5">{{texto}}</div>
+    {{else}}
+      {{errors}}
+    {{/each}}
+    <p><a href="/">Voltar</a></p>
+  </body>
+</html>
