@@ -1,10 +1,30 @@
+require("./models/artigo");
 const express = require("express");
 const handleBars = require("express-handlebars");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const cors = require("cors");
 
 //Configuração
 const app = express();
 const port = 8080;
+const Artigo = mongoose.model("artigo");
+
+app.use(cors());
+
+app.use(express.json());
+
+mongoose
+  .connect("mongodb://localhost:27017/Blog", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("Conexão realizada com sucesso!");
+  })
+  .catch((erro) => {
+    console.log("Erro: Conexão não foi estabelecida!");
+  });
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -49,6 +69,21 @@ app.post("/add_produto", (req, res) => {
         "<br>"
     );
   }
+});
+
+app.post("/artigo", async (req, res) => {
+  const artigo = await Artigo.create(req.body, (err) => {
+    if (err)
+      return res.status(400).json({
+        error: true,
+        message: "Erro: Artigo não foi cadastrado com sucesso!",
+      });
+
+    return res.status(200).json({
+      error: false,
+      message: "Artigo cadastrado com sucesso!",
+    });
+  });
 });
 
 //Sabendo se o back está funcionando
