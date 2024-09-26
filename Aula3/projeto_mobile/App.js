@@ -15,30 +15,12 @@ export default function App() {
         source={imagem}
         style={{ width: 350, height: 250, marginTop: 30 }}
       />
-      <Text
-        style={{
-          fontSize: 40,
-          color: "#f11",
-          marginTop: 20,
-          textDecorationLine: "underline",
-        }}
-      >
-        {jogo1}
-      </Text>
+      <Text style={style.textos}>{jogo1}</Text>
       <Image
         source={imagem2}
         style={{ width: 350, height: 250, marginTop: 50 }}
       />
-      <Text
-        style={{
-          fontSize: 40,
-          color: "#f11",
-          marginTop: 20,
-          textDecorationLine: "underline",
-        }}
-      >
-        {jogo2}
-      </Text>
+      <Text style={style.textos}>{jogo2}</Text>
     </View>
   );
 }
@@ -49,5 +31,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#259",
     alignItems: "center",
     justifyContent: "center",
+  },
+});
+
+const style = StyleSheet.create({
+  textos: {
+    fontSize: 40,
+    color: "#f11",
+    marginTop: 20,
+    textDecorationLine: "underline",
   },
 });
