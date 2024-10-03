@@ -43,7 +43,7 @@ class App extends Component {
     const statusNome = status ? "Casado" : "Solteiro";
 
     Alert.alert(
-      "Dados da Conta",
+      "Conta Aberta com sucesso!",
       `Nome: ${nome}\nSexo: ${sexoNome}\nLimite: $${valor.toFixed(
         1
       )}\nStatus: ${statusNome}`
