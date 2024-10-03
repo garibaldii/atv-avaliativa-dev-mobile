@@ -1,92 +1,124 @@
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Button,
+  Switch,
+  Alert,
+} from "react-native";
 import { Component } from "react";
-import Pessoas from "./src/Pessoas/Pessoas";
+import { Picker } from "@react-native-picker/picker";
+import Slider from "@react-native-community/slider";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      lista: [
-        {
-          id: 1,
-          nome: "Ana Silvana",
-          idade: 28,
-          email: "ana.silva@example.com",
-        },
-        {
-          id: 2,
-          nome: "Bruno Costa",
-          idade: 34,
-          email: "bruno.costa@example.com",
-        },
-        {
-          id: 3,
-          nome: "Carla Souza",
-          idade: 22,
-          email: "carla.souza@example.com",
-        },
-        {
-          id: 4,
-          nome: "Daniel Lima",
-          idade: 30,
-          email: "daniel.lima@example.com",
-        },
-        {
-          id: 5,
-          nome: "Eduarda Alves",
-          idade: 26,
-          email: "eduarda.alves@example.com",
-        },
-        {
-          id: 6,
-          nome: "Felipe Rocha",
-          idade: 29,
-          email: "felipe.rocha@example.com",
-        },
-        {
-          id: 7,
-          nome: "Gabriela Mendes",
-          idade: 31,
-          email: "gabriela.mendes@example.com",
-        },
-        {
-          id: 8,
-          nome: "Henrique Oliveira",
-          idade: 27,
-          email: "henrique.oliveira@example.com",
-        },
-        {
-          id: 9,
-          nome: "Isabela Ferreira",
-          idade: 25,
-          email: "isabela.ferreira@example.com",
-        },
-        {
-          id: 10,
-          nome: "João Pereira",
-          idade: 33,
-          email: "joao.pereira@example.com",
-        },
+      nome: "",
+      status: false,
+      valor: 0,
+      sexo: 0,
+      sexos: [
+        { key: 0, nome: "Masculino" },
+        { key: 1, nome: "Feminino" },
       ],
     };
+    this.pegaNome = this.pegaNome.bind(this);
+    this.abrirConta = this.abrirConta.bind(this);
+  }
+
+  pegaNome(texto) {
+    if (texto.length > 0) {
+      this.setState({ nome: texto });
+    } else {
+      this.setState({ nome: "" });
+    }
+  }
+
+  abrirConta() {
+    const { nome, status, valor, sexo, sexos } = this.state;
+    const sexoNome = sexos.find((v) => v.key == sexo).nome;
+    const statusNome = status ? "Casado" : "Solteiro";
+
+    Alert.alert(
+      "Dados da Conta",
+      `Nome: ${nome}\nSexo: ${sexoNome}\nLimite: $${valor.toFixed(
+        1
+      )}\nStatus: ${statusNome}`
+    );
   }
 
   render() {
+    let sexosItem = this.state.sexos.map((v) => {
+      return <Picker.Item key={v.key} value={v.key} label={v.nome} />;
+    });
+
     return (
       <View style={styles.container}>
-        <FlatList
-          data={this.state.lista}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <Pessoas data={item} />}
+        <TextInput
+          style={styles.input}
+          placeholder="Digite seu nome:"
+          underlineColorAndroid="transparent"
+          onChangeText={this.pegaNome}
         />
+
+        <Text> Seu sexo: </Text>
+
+        <Picker
+          selectedValue={this.state.sexo}
+          onValueChange={(itemValue) => this.setState({ sexo: itemValue })}
+        >
+          {sexosItem}
+        </Picker>
+
+        <Slider
+          minimumValue={0}
+          maximumValue={1000}
+          onValueChange={(valorSelecionado) =>
+            this.setState({ valor: valorSelecionado })
+          }
+          value={this.state.valor}
+          minimumTrackTintColor="#00FF00"
+          maximumTrackTintColor="#FF0000"
+        />
+        <Text style={{ textAlign: "center", fontSize: 30 }}>
+          Limite da conta: ${this.state.valor.toFixed(1)}
+        </Text>
+
+        <Switch
+          value={this.state.status}
+          onValueChange={(valorSwitch) =>
+            this.setState({ status: valorSwitch })
+          }
+          thumbColor="#FF0000"
+        />
+        <Text style={{ textAlign: "center", fontSize: 30 }}>
+          {this.state.status ? "Casado" : "Solteiro"}
+        </Text>
+
+        <Button title="Abrir Conta" onPress={this.abrirConta} />
       </View>
     );
   }
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  input: {
+    marginTop: 90,
+    height: 45,
+    borderWwidth: 1,
+    borderColor: "#222",
+    margin: 10,
+    fontSize: 20,
+    padding: 10,
+  },
+  texto: {
+    textAlign: "center",
+    fontSize: 25,
   },
 });
 export default App;
