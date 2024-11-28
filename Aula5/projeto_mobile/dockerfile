@@ -1,0 +1,17 @@
+# Escolhe a imagem base
+FROM node:16
+
+# Define o diretório de trabalho no container
+WORKDIR /src
+
+# Copia os arquivos do projeto para o container
+COPY . .
+
+# Instala as dependências
+RUN npm install
+
+EXPOSE 3000
+
+# Comando para rodar o app
+CMD ["npm", "start"]
+
